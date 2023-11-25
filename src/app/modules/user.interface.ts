@@ -1,3 +1,5 @@
+import { Model } from "mongoose";
+
 export type TFullName = {
   firstName: string;
   lastName: string;
@@ -24,3 +26,9 @@ export type TUsers = {
   address: TAddress;
   orders: TOrder[];
 };
+
+//creating a new static instance
+export interface UserModel extends Model<TUsers> {
+  // eslint-disable-next-line no-unused-vars
+  isUserExists(id: string): Promise<TUsers | null>;
+}

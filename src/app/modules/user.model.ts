@@ -1,5 +1,11 @@
 import { Schema, model } from "mongoose";
-import { TAddress, TFullName, TUsers, TOrder } from "./user.interface";
+import {
+  TAddress,
+  TFullName,
+  TUsers,
+  TOrder,
+  UserModel,
+} from "./user.interface";
 import config from "../config";
 import bcrypt from "bcrypt";
 
@@ -51,7 +57,7 @@ const userOrderSchema = new Schema<TOrder>({
   },
 });
 
-const userSchema = new Schema<TUsers>(
+const userSchema = new Schema<TUsers, UserModel>(
   {
     userId: {
       type: Number,
@@ -106,6 +112,13 @@ const userSchema = new Schema<TUsers>(
     },
   }
 );
+
+//save Middleware
+userSchema.post("save", function (doc, next) {
+  doc.password = undefined;
+  next();
+});
+
 // Password Hashing
 userSchema.pre("save", async function (next) {
   const user = this; //doc
@@ -113,4 +126,9 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-export const User = model<TUsers>("User", userSchema);
+//creating a custom static method
+userSchema.statics.isUserExists = async function (id: string) {
+  const existingUser = await User.findOne({ userId: Number(id) });
+  return existingUser;
+};
+export const User = model<TUsers, UserModel>("User", userSchema);
