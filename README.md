@@ -7,7 +7,7 @@ Install dependencies npm install
 
 # package.json Start the server: npm run start:dev
 
-# Open postman Create a user: http://localhost:3002/api/users
+Open postman Create a user: http://localhost:3002/api/users
 
 Get all users: http://localhost:5000/api/users
 
