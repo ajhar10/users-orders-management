@@ -113,12 +113,6 @@ const userSchema = new Schema<TUsers, UserModel>(
   }
 );
 
-//save Middleware
-userSchema.post("save", function (doc, next) {
-  doc.password = undefined;
-  next();
-});
-
 // Password Hashing
 userSchema.pre("save", async function (next) {
   const user = this; //doc
