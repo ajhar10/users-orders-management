@@ -24,7 +24,7 @@ export type TUsers = {
   isActive: boolean;
   hobbies: string[];
   address: TAddress;
-  orders: TOrder[];
+  orders?: TOrder[];
 };
 
 //creating a new static instance

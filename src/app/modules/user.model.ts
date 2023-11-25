@@ -125,6 +125,12 @@ userSchema.pre("save", async function (next) {
   user.password = await bcrypt.hash(user.password, Number(config.salt_round));
   next();
 });
+//Delete password field
+userSchema.methods.toJSON = function () {
+  const Obj = this.toObject();
+  delete Obj.password;
+  return Obj;
+};
 
 //creating a custom static method
 userSchema.statics.isUserExists = async function (id: string) {
